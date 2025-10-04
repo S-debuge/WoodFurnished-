@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Furniture Shopping Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <div class="max-w-6xl mx-auto p-6 flex flex-col md:flex-row gap-6">
+    
+    <!-- Shopping Cart -->
+    <div class="flex-1 bg-white p-6 rounded-lg shadow">
+      <h2 class="text-2xl font-semibold mb-4">Shopping Cart</h2>
+      
+      <!-- Furniture Item 1 -->
+      <div class="flex items-center justify-between border-b py-4">
+        <div class="flex items-center gap-4">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=120&h=120&q=80" 
+               alt="Sofa" class="w-20 h-20 object-cover rounded">
+          <div>
+            <h3 class="font-medium">Sofa</h3>
+            <p class="text-sm text-gray-600">Comfortable 3-Seater Sofa</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center border rounded">
+            <button class="px-2 qty-minus">-</button>
+            <span class="px-4 qty">1</span>
+            <button class="px-2 qty-plus">+</button>
+          </div>
+          <p class="font-medium price" data-price="350">€350.00</p>
+          <button class="text-red-500 remove">✕</button>
+        </div>
+      </div>
+
+      <!-- Furniture Item 2 -->
+      <div class="flex items-center justify-between border-b py-4">
+        <div class="flex items-center gap-4">
+          <img src="static/dining table.jpg" 
+               alt="Dining Table" class="w-20 h-20 object-cover rounded">
+          <div>
+            <h3 class="font-medium">Dining Table</h3>
+            <p class="text-sm text-gray-600">Wooden 6-Seater Table</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center border rounded">
+            <button class="px-2 qty-minus">-</button>
+            <span class="px-4 qty">1</span>
+            <button class="px-2 qty-plus">+</button>
+          </div>
+          <p class="font-medium price" data-price="220">€220.00</p>
+          <button class="text-red-500 remove">✕</button>
+        </div>
+      </div>
+
+      <!-- Furniture Item 3 -->
+      <div class="flex items-center justify-between py-4">
+        <div class="flex items-center gap-4">
+          <img src="static/mordan chair.jpg" 
+               alt="Chairs" class="w-20 h-20 object-cover rounded">
+          <div>
+            <h3 class="font-medium">Chairs</h3>
+            <p class="text-sm text-gray-600">Set of 2 Wooden Chairs</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center border rounded">
+            <button class="px-2 qty-minus">-</button>
+            <span class="px-4 qty">1</span>
+            <button class="px-2 qty-plus">+</button>
+          </div>
+          <p class="font-medium price" data-price="120">€120.00</p>
+          <button class="text-red-500 remove">✕</button>
+        </div>
+      </div>
+
+      <a href="#" class="text-blue-600 text-sm">← Back to shop</a>
+    </div>
+
+    <!-- Summary -->
+    <div class="w-full md:w-80 bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Summary</h2>
+      <div class="flex justify-between mb-2">
+        <span>ITEMS <span id="itemCount">3</span></span>
+        <span id="itemsTotal">€690.00</span>
+      </div>
+
+      <div class="mb-2">
+        <label for="shipping" class="block text-sm">SHIPPING</label>
+        <select id="shipping" class="w-full border p-2 rounded">
+          <option value="0">Free Delivery - €0</option>
+          <option value="20">Standard Delivery - €20</option>
+          <option value="50">Premium Delivery - €50</option>
+        </select>
+      </div>
+
+      <div class="mb-2">
+        <label for="code" class="block text-sm">DISCOUNT CODE</label>
+        <input id="code" type="text" placeholder="Enter your code" class="w-full border p-2 rounded">
+      </div>
+
+      <div class="flex justify-between font-semibold text-lg border-t pt-2 mt-2">
+        <span>TOTAL PRICE</span>
+        <span id="totalPrice">€690.00</span>
+      </div>
+
+      <button class="w-full bg-black text-white py-2 mt-4 rounded">CHECKOUT</button>
+    </div>
+  </div>
+
+  <script>
+    function updateSummary() {
+      let items = document.querySelectorAll(".price");
+      let total = 0;
+      let count = 0;
+
+      items.forEach(item => {
+        let qty = parseInt(item.parentElement.querySelector(".qty").textContent);
+        let price = parseInt(item.dataset.price);
+        total += qty * price;
+        count += qty;
+      });
+
+      let shipping = parseInt(document.getElementById("shipping").value);
+      total += shipping;
+
+      document.getElementById("itemCount").textContent = count;
+      document.getElementById("itemsTotal").textContent = "€" + (total - shipping).toFixed(2);
+      document.getElementById("totalPrice").textContent = "€" + total.toFixed(2);
+    }
+
+    document.querySelectorAll(".qty-plus").forEach(btn => {
+      btn.addEventListener("click", e => {
+        let qty = e.target.parentElement.querySelector(".qty");
+        qty.textContent = parseInt(qty.textContent) + 1;
+        updateSummary();
+      });
+    });
+
+    document.querySelectorAll(".qty-minus").forEach(btn => {
+      btn.addEventListener("click", e => {
+        let qty = e.target.parentElement.querySelector(".qty");
+        if (parseInt(qty.textContent) > 1) {
+          qty.textContent = parseInt(qty.textContent) - 1;
+          updateSummary();
+        }
+      });
+    });
+
+    document.querySelectorAll(".remove").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.target.closest(".flex.items-center.justify-between").remove();
+        updateSummary();
+      });
+    });
+
+    document.getElementById("shipping").addEventListener("change", updateSummary);
+
+    updateSummary();
+  </script>
+
+</body>
+</html>

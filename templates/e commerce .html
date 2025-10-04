@@ -1,0 +1,404 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoodFurnished - Furniture Website</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- AOS Animations -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; overflow-x: hidden; }
+
+    /* Navbar */
+    .navbar { padding: 15px 0; }
+    .navbar-brand { font-weight: 700; font-size: 1.5rem; }
+    .nav-link { font-weight: 500; margin-right: 15px; }
+
+    /* Hero Slider */
+    .carousel-item {
+      height: 90vh;
+      min-height: 500px;
+      background: no-repeat center center scroll;
+      background-size: cover;
+      position: relative;
+    }
+    .carousel-caption {
+      bottom: 20%;
+      text-align: left;
+    }
+    .carousel-caption h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 3px 8px rgba(0,0,0,0.6);
+    }
+    .carousel-caption p {
+      font-size: 1.2rem;
+      color: #eee;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    .carousel-caption .btn {
+      margin-top: 15px;
+      border-radius: 30px;
+      padding: 12px 25px;
+    }
+
+    /* Product Section */
+    .products { padding: 80px 0; }
+    .product-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .product-card:hover { transform: translateY(-5px) scale(1.02); }
+    .product-card img {
+      width: 100%; height: 200px; object-fit: cover;
+      border-radius: 10px; margin-bottom: 15px;
+    }
+
+    /* Filter Buttons */
+    .filter-btn.active { background-color: #212529; color: #fff; }
+
+    /* Why Choose Us */
+    .why-choose { padding: 80px 0; }
+    .feature-box { display: flex; align-items: flex-start; margin-bottom: 30px; }
+    .feature-icon {
+      font-size: 32px; color: #000; background: #e9f0ec;
+      padding: 12px; border-radius: 50%; margin-right: 15px;
+    }
+
+    /* Blog */
+    .blog { padding: 80px 0; }
+    .blog-card {
+      background: #fff; border-radius: 15px; overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.3s;
+    }
+    .blog-card:hover { transform: translateY(-5px); }
+    .blog-card img { width: 100%; height: 220px; object-fit: cover; }
+    .blog-content { padding: 20px; }
+
+    /* Newsletter */
+    .newsletter {
+      padding: 60px 20px; background: #e9f0ec; text-align: center;
+      border-radius: 15px; margin: 50px auto; max-width: 900px;
+    }
+    .newsletter input {
+      padding: 12px; border-radius: 30px; border: none;
+      width: 60%; max-width: 400px; margin-right: 10px;
+    }
+    .newsletter button { padding: 12px 25px; border-radius: 30px; }
+
+    /* Footer */
+    footer { background: #212529; color: #fff; padding: 50px 0; margin-top: 50px; }
+    footer a { color: #bbb; text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .carousel-caption { text-align: center; bottom: 15%; }
+      .carousel-caption h1 { font-size: 2rem; }
+      .carousel-caption p { font-size: 1rem; }
+      .newsletter input { width: 100%; margin-bottom: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">WoodFurnished</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#shop">Shop</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+
+        <!-- 🔹 New Auth & Cart Links -->
+        <li class="nav-item"><a class="nav-link" href="{% url 'login'%}"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}"><i class="bi bi-person-plus"></i> Register</a></li>
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="{% url 'cart' %}">
+            <i class="bi bi-cart"></i> Cart
+            <!-- 🔹 Optional Cart Badge -->
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              0
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Hero Carousel -->
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active" style="background-image:url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80')">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Modern Interior Furniture</h1>
+          <p>Stylish, comfortable, and affordable furniture for your dream home.</p>
+          <a href="#" class="btn btn-dark btn-lg">Shop Now</a>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item" style="background-image:url('static/living\ room\ slide.jpg')">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Upgrade Your Living Room</h1>
+          <p>Discover premium designs that bring beauty and comfort.</p>
+          <a href="#" class="btn btn-light btn-lg">Explore</a>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item" style="background-image:url('https://images.unsplash.com/photo-1615874959474-d609969a20ed?auto=format&fit=crop&w=1200&q=80')">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Premium Sofa Collection</h1>
+          <p>Handcrafted with quality materials for ultimate comfort.</p>
+          <a href="#" class="btn btn-warning btn-lg">View Collection</a>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item" style="background-image:url('static/bedroom\ design.jpg')">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Elegant Bedroom Designs</h1>
+          <p>Create cozy vibes with our premium bedroom furniture.</p>
+          <a href="#" class="btn btn-primary btn-lg">Discover</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+<!-- Products -->
+<section class="products">
+  <div class="container">
+    <h2 class="text-center mb-5" data-aos="fade-up">Our Products</h2>
+
+    <!-- Filter Buttons -->
+    <div class="text-center mb-4" data-aos="fade-up">
+      <button class="btn btn-outline-dark mx-1 filter-btn active" data-filter="all">All</button>
+      <button class="btn btn-outline-dark mx-1 filter-btn" data-filter="sofa">Sofa</button>
+      <button class="btn btn-outline-dark mx-1 filter-btn" data-filter="chair">Chair</button>
+      <button class="btn btn-outline-dark mx-1 filter-btn" data-filter="bed">Bed</button>
+      <button class="btn btn-outline-dark mx-1 filter-btn" data-filter="dining">Dining Set</button>
+      <button class="btn btn-outline-dark mx-1 filter-btn" data-filter="wardrobe">Wardrobe</button>
+      <button class="btn btn-outline-dark mx-1 filter-btn" data-filter="shelf">Shelf</button>
+    </div>
+
+    <div class="row g-4 product-items">
+      <div class="col-md-4 product-card-item sofa" data-aos="zoom-in">
+        <div class="product-card">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80">
+          <h5>Comfortable Sofa</h5>
+          <p>$299</p>
+        </div>
+      </div>
+      <div class="col-md-4 product-card-item chair" data-aos="zoom-in" data-aos-delay="200">
+        <div class="product-card">
+          <img src="static/mordan chair.jpg">
+          <h5>Modern Chair</h5>
+          <p>$149</p>
+        </div>
+      </div>
+      <div class="col-md-4 product-card-item sofa" data-aos="zoom-in" data-aos-delay="200">
+        <div class="product-card">
+          <img src="static/sofa 2.jpeg">
+          <h5>Raylant Sofa</h5>
+          <p>$149</p>
+        </div>
+      </div>
+      <div class="col-md-4 product-card-item table" data-aos="zoom-in" data-aos-delay="400">
+        <div class="product-card">
+          <img src="static/wooden table.webp">
+          <h5>Wooden Table</h5>
+          <p>$199</p>
+        </div>
+      </div>
+      <div class="col-md-4 product-card-item bed" data-aos="zoom-in" data-aos-delay="500">
+        <div class="product-card">
+          <img src="static/bed.jpeg">
+          <h5>Queen Bed</h5>
+          <p>$499</p>
+        </div>
+      </div>
+      <div class="col-md-4 product-card-item dining" data-aos="zoom-in" data-aos-delay="600">
+        <div class="product-card">
+          <img src="static/dining table.jpg">
+          <h5>Dining Set</h5>
+          <p>$399</p>
+        </div>
+      </div>
+      <div class="col-md-4 product-card-item wardrobe" data-aos="zoom-in" data-aos-delay="700">
+        <div class="product-card">
+          <img src="static/wardrobe 1.jpg">
+          <h5>Wardrobe</h5>
+          <p>$299</p>
+        </div>
+      </div>
+      <div class="col-md-4 product-card-item shelf" data-aos="zoom-in" data-aos-delay="800">
+        <div class="product-card">
+          <img src="static/book.jpg">
+          <h5>Bookshelf</h5>
+          <p>$149</p>
+        </div>
+      </div>
+      <div class="col-md-4 product-card-item " data-aos="zoom-in" data-aos-delay="600">
+        <div class="product-card">
+          <img src="static/study table.webp">
+          <h5>Study Table</h5>
+          <p>$399</p>
+        </div>
+      </div>
+      <div class="col-md-4 product-card-item " data-aos="zoom-in" data-aos-delay="700">
+        <div class="product-card">
+          <img src="static/mordan table.jpeg"> 
+          <h5> Mordan Table</h5>
+          <p>$299</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-choose">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6" data-aos="fade-right">
+        <h2>Why Choose Us</h2>
+        <p class="lead">Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit.</p>
+        <div class="feature-box"><div class="feature-icon"><i class="bi bi-truck"></i></div><div><h5>Fast & Free Shipping</h5><p>Donec vitae odio quis nisl dapibus malesuada.</p></div></div>
+        <div class="feature-box"><div class="feature-icon"><i class="bi bi-bag"></i></div><div><h5>Easy to Shop</h5><p>Aliquam vulputate velit imperdiet dolor tempor tristique.</p></div></div>
+        <div class="feature-box"><div class="feature-icon"><i class="bi bi-headset"></i></div><div><h5>24/7 Support</h5><p>Nullam ac aliquet velit imperdiet dolor tempor tristique.</p></div></div>
+        <div class="feature-box"><div class="feature-icon"><i class="bi bi-arrow-repeat"></i></div><div><h5>Hassle Free Returns</h5><p>Aliquam vulputate velit imperdiet dolor tempor tristique.</p></div></div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80" class="img-fluid rounded">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Blog -->
+<section class="blog">
+  <div class="container">
+    <h2 class="text-center mb-5" data-aos="fade-up">Latest Blog</h2>
+    <div class="row g-4">
+      <div class="col-md-4" data-aos="flip-left">
+        <div class="blog-card">
+          <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=800&q=80">
+          <div class="blog-content"><h5>10 Tips for Modern Living Room Design</h5><a href="#">Read More →</a></div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="flip-left" data-aos-delay="200">
+        <div class="blog-card">
+          <img src="static/sofa futoor.webp">
+          <div class="blog-content"><h5>How to Choose the Perfect Sofa</h5><a href="#">Read More →</a></div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="flip-left" data-aos-delay="400">
+        <div class="blog-card">
+          <img src="static/Best Interior Color Combinations 1.jpeg">
+          <div class="blog-content"><h5>Best Interior Color Combinations</h5><a href="#">Read More →</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter" data-aos="zoom-in">
+  <div class="container">
+    <h3>Subscribe to Our Newsletter</h3>
+    <p>Get the latest updates on new products and upcoming sales.</p>
+    <form class="d-flex flex-wrap justify-content-center">
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit" class="btn btn-dark">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <h5>WoodFurnished</h5>
+        <p>Discover stylish, comfortable, and affordable furniture for your home.</p>
+      </div>
+      <div class="col-md-2 mb-4">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled"><li><a href="#">Home</a></li><li><a href="#">Shop</a></li><li><a href="#">About</a></li><li><a href="#">Services</a></li></ul>
+      </div>
+      <div class="col-md-2 mb-4">
+        <h5>Support</h5>
+        <ul class="list-unstyled"><li><a href="#">Contact</a></li><li><a href="#">FAQs</a></li><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li></ul>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <h5>Follow Us</h5>
+        <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="me-3"><i class="bi bi-instagram"></i></a>
+        <a href="#"><i class="bi bi-twitter"></i></a>
+        <p class="mt-3">&copy; 2025 WoodFurnished All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap + AOS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script> AOS.init({ duration: 1000, once: true }); </script>
+
+<!-- Filter Script -->
+<script>
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const products = document.querySelectorAll('.product-card-item');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      products.forEach(p => {
+        const productClasses = p.className.split(' ');
+        if(filter === 'all' || productClasses.includes(filter)) {
+          p.style.display = 'block';
+        } else {
+          p.style.display = 'none';
+        }
+      });
+    });
+  });
+  
+</script>
+</body>
+</html>
