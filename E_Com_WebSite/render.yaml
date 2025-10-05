@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ecommerce-website
+    env: python
+    plan: free        # free plan use kar raha hu, aap badal sakte ho
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn ecommerce.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: ecommerce.settings
+      - key: PYTHON_VERSION
+        value: 3.11
